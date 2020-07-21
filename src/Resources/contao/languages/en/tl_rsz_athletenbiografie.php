@@ -31,6 +31,7 @@ $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['athlete'] = ["Athlet", "Wählen
 $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['author'] = ["Autor", "Wählen Sie einen Autor aus."];
 $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['notice'] = ["Notiz", "Bitte geben Sie eine Notiz ein."];
 $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['multiSRC'] = ["Dateianlagen", "Fügen Sie Dateianlagen hinzu."];
+$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['dateAdded'] = ["Datum", "Wählen Sie das Erstellungsdatum aus."];
 
 
 
