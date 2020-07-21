@@ -2,9 +2,9 @@ services:
     _defaults: { autowire: true, autoconfigure: true, public: true }
 
 
-
-
-    # Custom route
-    Markocupic\RszAthletenbiografieBundle\Controller\MyCustomController: ~
+    # Download Athletenbiografie
+    Markocupic\RszAthletenbiografieBundle\Docx\Athletenbiografie:
+        arguments:
+        - '%kernel.project_dir%'
 
 

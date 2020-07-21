@@ -24,6 +24,10 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
                 'athlete' => 'index'
             ]
         ],
+        'onload_callback'  => [
+            ["tl_rsz_athletenbiografie", "downloadRszAthletenbiografie"],
+
+        ],
     ],
     'list'        => [
         'sorting'           => [
@@ -37,12 +41,18 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             'format' => '%s',
         ],
         'global_operations' => [
-            'all' => [
+            'all'                          => [
                 'label'      => &$GLOBALS['TL_LANG']['MSC']['all'],
                 'href'       => 'act=select',
                 'class'      => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"'
-            ]
+            ],
+            'rsz_athletenbiografie_export' => [
+                'label'      => &$GLOBALS['TL_LANG']['MSC']['rsz_athletenbiografie_export'],
+                'href'       => 'action=downloadRszAthletenbiografie',
+                'class'      => 'header_rsz_athletenbiografie_export',
+                'attributes' => 'onclick="Backend.getScrollOffset();" accesskey="i"'
+            ],
         ],
         'operations'        => [
             'edit'   => [
@@ -113,7 +123,7 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
         'multiSRC'  => [
             'exclude'       => true,
             'inputType'     => 'fileTree',
-            'eval'          => ['multiple' => true, 'fieldType' => 'checkbox', 'orderField' => 'orderSRC', 'files' => true, 'mandatory' => true],
+            'eval'          => ['multiple' => true, 'fieldType' => 'checkbox', 'orderField' => 'orderSRC', 'files' => true, 'mandatory' => false],
             'load_callback' => [
                 //['tl_module', 'setMultiSrcFlags']
             ],
@@ -163,6 +173,52 @@ class tl_rsz_athletenbiografie extends Contao\Backend
         }
 
         return $arrUsers;
+    }
+
+    /**
+     * Onload callback
+     */
+    public function downloadRszAthletenbiografie()
+    {
+        if (\Contao\Input::get('do') === 'rsz_athletenbiografie' && \Contao\Input::get('action') === 'downloadRszAthletenbiografie')
+        {
+            $blnAllowDownload = false;
+            /** @var \Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface $objSessionBag */
+            $objSessionBag = System::getContainer()->get('session')->getBag('contao_backend');
+            if (\Contao\Input::get('do') === 'rsz_athletenbiografie')
+            {
+                $objSessionBag->all();
+                if ($objSessionBag->has('filter'))
+                {
+                    $arrFilter = $objSessionBag->get('filter');
+                    if (isset($arrFilter['tl_rsz_athletenbiografie']['athlete']))
+                    {
+                        $blnAllowDownload = true;
+                    }
+                }
+            }
+
+            if (!$blnAllowDownload)
+            {
+                \Contao\Message::addError($GLOBALS['TL_LANG']['ERR']['downloasRszAthleteBiographyNotPossible']);
+                return;
+            }
+
+            $athleteId = $arrFilter['tl_rsz_athletenbiografie']['athlete'];
+
+            $objUser = \Contao\UserModel::findByPk($athleteId);
+
+            $objRszAthletenbiografieModel = \Markocupic\RszAthletenbiografieBundle\Model\RszAthletenbiografieModel::findByAthlete($athleteId);
+            if ($objRszAthletenbiografieModel !== null && $objUser !== null)
+            {
+                $objExport = \Contao\System::getContainer()->get('Markocupic\RszAthletenbiografieBundle\Docx\Athletenbiografie');
+
+                $objExport->print($objRszAthletenbiografieModel, $objUser);
+                return;
+            }
+
+            \Contao\Message::addError('Error: Could not download biography.');
+        }
     }
 }
 
