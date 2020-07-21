@@ -155,7 +155,6 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             'sql'       => "blob NULL"
         ],
         'dateAdded' => [
-            'label'     => &$GLOBALS['TL_LANG']['MSC']['dateAdded'],
             'inputType' => 'text',
             'default'   => time(),
             'sorting'   => true,
