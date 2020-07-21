@@ -1,0 +1,49 @@
+{
+  "name": "markocupic/rsz-athletenumfrage-bundle",
+  "description": "RSZ Athletenumfrage",
+  "keywords": [
+    "contao",
+    "RSZ",
+    "Athletenumfrage",
+    "Regionalkader",
+    "Sportklettern",
+    "Zentralschweiz"
+  ],
+  "type": "contao-module",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marko Cupic",
+      "email": "m.cupic@gmx.ch",
+      "homepage": "https://github.com/markocupic",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/markocupic/rsz-athletenumfrage-bundle/issues",
+    "source": "https://github.com/markocupic/rsz-athletenumfrage-bundle"
+  },
+  "require": {
+    "contao/core-bundle": "^4.9",
+    "league/csv": "^9.1",
+    "markocupic/phpoffice-bundle": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Markocupic\\RszAthletenumfrageBundle\\": "src/"
+    },
+    "classmap": [
+      "src/Resources/contao"
+    ],
+    "exclude-from-classmap": [
+      "src/Resources/contao/config",
+      "src/Resources/contao/dca",
+      "src/Resources/contao/languages",
+      "src/Resources/contao/templates"
+    ]
+  },
+  "extra": {
+    "contao-manager-plugin": "Markocupic\\RszAthletenumfrageBundle\\ContaoManager\\Plugin"
+  }
+
+}
