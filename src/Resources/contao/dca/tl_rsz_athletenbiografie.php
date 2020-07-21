@@ -20,8 +20,8 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
         'enableVersioning' => true,
         'sql'              => [
             'keys' => [
-                'id' => 'primary',
-                'athlet' => 'index'
+                'id'      => 'primary',
+                'athlete' => 'index'
             ]
         ],
     ],
@@ -67,7 +67,7 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
     // Palettes
     'palettes'    => [
         //'__selector__' => ['addSubpalette'],
-        'default' => '{first_legend},title,notice;{attachment_legend},multiSRC'
+        'default' => '{first_legend},title,athlete,dateAdded,notice;{attachment_legend},multiSRC'
     ],
     // Subpalettes
     'subpalettes' => [
@@ -75,42 +75,42 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
     ],
     // Fields
     'fields'      => [
-        'id'       => [
+        'id'        => [
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ],
-        'tstamp'   => [
+        'tstamp'    => [
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ],
-        'title'    => [
+        'title'     => [
             'inputType' => 'text',
             'exclude'   => true,
             'search'    => true,
-            'filter'    => true,
-            'sorting'   => true,
+            'filter'    => false,
+            'sorting'   => false,
             'flag'      => 1,
             'eval'      => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql'       => "varchar(255) NOT NULL default ''"
         ],
-        'athlet'   => [
+        'athlete'   => [
             'inputType'        => 'select',
             'exclude'          => true,
-            'search'           => true,
+            'search'           => false,
             'filter'           => true,
             'sorting'          => true,
             'options_callback' => ['tl_rsz_athletenbiografie', 'getAthletes'],
             'eval'             => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql'              => "varchar(255) NOT NULL default ''"
         ],
-        'notice'   => [
+        'notice'    => [
             'inputType' => 'textarea',
             'exclude'   => true,
             'search'    => true,
-            'filter'    => true,
-            'sorting'   => true,
+            'filter'    => false,
+            'sorting'   => false,
             'eval'      => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
             'sql'       => 'text NOT NULL'
         ],
-        'multiSRC' => [
+        'multiSRC'  => [
             'exclude'       => true,
             'inputType'     => 'fileTree',
             'eval'          => ['multiple' => true, 'fieldType' => 'checkbox', 'orderField' => 'orderSRC', 'files' => true, 'mandatory' => true],
@@ -119,7 +119,16 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             ],
             'sql'           => "blob NULL"
         ],
-        'orderSRC' => [
+        'dateAdded' => [
+            'label'     => &$GLOBALS['TL_LANG']['MSC']['dateAdded'],
+            'inputType' => 'text',
+            'default'   => time(),
+            'sorting'   => true,
+            'flag'      => 6,
+            'eval'      => ['rgxp' => 'date', 'doNotCopy' => true, 'datepicker' => true, 'tl_class' => 'w50'],
+            'sql'       => "int(10) unsigned NOT NULL default 0"
+        ],
+        'orderSRC'  => [
             'label' => &$GLOBALS['TL_LANG']['MSC']['sortOrder'],
             'sql'   => "blob NULL"
         ],
@@ -143,11 +152,14 @@ class tl_rsz_athletenbiografie extends Contao\Backend
         }
         $arrUsers = [];
         $objUser = Contao\Database::getInstance()
-            ->prepare('SELECT * FROM tl_user WHERE funktion=? ORDER BY name')
-            ->execute('Athlet');
+            ->execute('SELECT * FROM tl_user ORDER BY name');
         while ($objUser->next())
         {
-            $arrUsers[$objUser->id] = $objUser->name;
+            $arrFunktion = \Contao\StringUtil::deserialize($objUser->funktion, true);
+            if (in_array('Athlet', $arrFunktion))
+            {
+                $arrUsers[$objUser->id] = $objUser->name;
+            }
         }
 
         return $arrUsers;

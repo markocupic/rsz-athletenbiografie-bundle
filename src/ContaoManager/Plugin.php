@@ -9,7 +9,6 @@
  *
  */
 
-
 declare(strict_types=1);
 
 namespace Markocupic\RszAthletenbiografieBundle\ContaoManager;
@@ -18,17 +17,13 @@ use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Config\ConfigPluginInterface;
-use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Config\Loader\LoaderResolverInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
-
 
 /**
  * Class Plugin
  * @package Markocupic\RszAthletenbiografieBundle\ContaoManager
  */
-class Plugin implements BundlePluginInterface, RoutingPluginInterface, ConfigPluginInterface
+class Plugin implements BundlePluginInterface, ConfigPluginInterface
 {
     /**
      * {@inheritdoc}
@@ -53,18 +48,6 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface, ConfigPlu
         $loader->load(__DIR__ . '/../Resources/config/listener.yml');
     }
 
-    /**
-     * @param LoaderResolverInterface $resolver
-     * @param KernelInterface $kernel
-     * @return null|\Symfony\Component\Routing\RouteCollection
-     * @throws \Exception
-     */
-    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
-    {
-        return $resolver
-            ->resolve(__DIR__ . '/../Resources/config/routing.yml')
-            ->load(__DIR__ . '/../Resources/config/routing.yml');
-    }
 }
 
 
