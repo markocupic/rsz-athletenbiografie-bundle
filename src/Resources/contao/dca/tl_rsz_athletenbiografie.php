@@ -31,14 +31,16 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
     ],
     'list'        => [
         'sorting'           => [
-            'mode'        => 2,
-            'fields'      => ['title'],
-            'flag'        => 1,
-            'panelLayout' => 'filter;sort,search,limit'
+            'mode'            => 2,
+            'fields'          => ['athlete, dateAdded'],
+            'flag'            => 5,
+            'disableGrouping' => true,
+            'panelLayout'     => 'filter;sort,search,limit'
         ],
         'label'             => [
-            'fields' => ['title'],
-            'format' => '%s',
+            'fields'         => ['dateAdded', 'title'],
+            'format'         => '%s: [Athlet: ###athlete###] <strong>%s</strong> [Autor: ###author###]',
+            'label_callback' => ['tl_rsz_athletenbiografie', 'labelCallback']
         ],
         'global_operations' => [
             'all'                          => [
@@ -50,7 +52,9 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             'rsz_athletenbiografie_export' => [
                 'label'      => &$GLOBALS['TL_LANG']['MSC']['rsz_athletenbiografie_export'],
                 'href'       => 'action=downloadRszAthletenbiografie',
-                'class'      => 'header_rsz_athletenbiografie_export',
+                'class'      => 'header_icon header_rsz_athletenbiografie_export',
+                'title'      => &$GLOBALS['TL_LANG']['MSC']['rsz_athletenbiografie_export'],
+                'icon'       => 'bundles/markocupicrszathletenbiografie/word_icon.svg',
                 'attributes' => 'onclick="Backend.getScrollOffset();" accesskey="i"'
             ],
         ],
@@ -77,7 +81,7 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
     // Palettes
     'palettes'    => [
         //'__selector__' => ['addSubpalette'],
-        'default' => '{first_legend},title,athlete,dateAdded,notice;{attachment_legend},multiSRC'
+        'default' => '{first_legend},author,title,athlete,dateAdded,notice;{attachment_legend},multiSRC'
     ],
     // Subpalettes
     'subpalettes' => [
@@ -101,6 +105,19 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             'eval'      => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql'       => "varchar(255) NOT NULL default ''"
         ],
+        'author'    => [
+            'inputType'        => 'select',
+            'exclude'          => true,
+            'default'          => \Contao\BackendUser::getInstance()->id,
+            'search'           => false,
+            'filter'           => true,
+            'sorting'          => true,
+            'options_callback' => ['tl_rsz_athletenbiografie', 'getUsers'],
+            'foreignKey'       => 'tl_user.name',
+            'eval'             => ['mandatory' => true, 'readonly' => true, 'doNotShow' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql'              => "varchar(255) NOT NULL default ''",
+            'relation'         => ['type' => 'hasOne', 'load' => 'lazy']
+        ],
         'athlete'   => [
             'inputType'        => 'select',
             'exclude'          => true,
@@ -108,8 +125,10 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             'filter'           => true,
             'sorting'          => true,
             'options_callback' => ['tl_rsz_athletenbiografie', 'getAthletes'],
+            'foreignKey'       => 'tl_user.name',
             'eval'             => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
-            'sql'              => "varchar(255) NOT NULL default ''"
+            'sql'              => "varchar(255) NOT NULL default ''",
+            'relation'         => ['type' => 'hasOne', 'load' => 'lazy']
         ],
         'notice'    => [
             'inputType' => 'textarea',
@@ -176,6 +195,23 @@ class tl_rsz_athletenbiografie extends Contao\Backend
     }
 
     /**
+     * @return array
+     * @throws Exception
+     */
+    public function getUsers()
+    {
+        $arrUsers = [];
+        $objUser = Contao\Database::getInstance()
+            ->execute('SELECT * FROM tl_user ORDER BY name');
+        while ($objUser->next())
+        {
+            $arrUsers[$objUser->id] = $objUser->name;
+        }
+
+        return $arrUsers;
+    }
+
+    /**
      * Onload callback
      */
     public function downloadRszAthletenbiografie()
@@ -200,8 +236,8 @@ class tl_rsz_athletenbiografie extends Contao\Backend
 
             if (!$blnAllowDownload)
             {
-                \Contao\Message::addError($GLOBALS['TL_LANG']['ERR']['downloasRszAthleteBiographyNotPossible']);
-                return;
+                \Contao\Message::addError($GLOBALS['TL_LANG']['ERR']['downloadRszAthleteBiographyNotPossible']);
+                $this->redirect($this->getReferer());
             }
 
             $athleteId = $arrFilter['tl_rsz_athletenbiografie']['athlete'];
@@ -218,7 +254,30 @@ class tl_rsz_athletenbiografie extends Contao\Backend
             }
 
             \Contao\Message::addError('Error: Could not download biography.');
+            $this->redirect($this->getReferer());
         }
+    }
+
+    /**
+     * @param $row
+     * @param $label
+     * @return string
+     */
+    public function labelCallback($row, $label)
+    {
+        $objUser = \Contao\UserModel::findByPk($row['athlete']);
+        if ($objUser !== null)
+        {
+            $label = str_replace('###athlete###', $objUser->name, $label);
+        }
+
+        $objUser = \Contao\UserModel::findByPk($row['author']);
+        if ($objUser !== null)
+        {
+            $label = str_replace('###author###', $objUser->name, $label);
+        }
+
+        return $label;
     }
 }
 

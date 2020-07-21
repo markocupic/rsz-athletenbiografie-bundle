@@ -17,5 +17,9 @@ $GLOBALS['TL_LANG']['MSC']['rsz_athletenbiografie_export'] = 'Biografie download
 /**
  * Error messages
  */
-$GLOBALS['TL_LANG']['ERR']['downloasRszAthleteBiographyNotPossible'] = 'Der Download der Athletenbiografie ist erst dann möglich, wenn der Athletenfilter gesetzt wurde.';
+$GLOBALS['TL_LANG']['ERR']['downloadRszAthleteBiographyNotPossible'] = 'Der Download der Athletenbiografie ist erst dann möglich, wenn der Athletenfilter gesetzt wurde.';
 
+/**
+ * Misc
+ */
+$GLOBALS['TL_LANG']['MSC']['downloasRszAthleteAttachmentsFound'] = 'Anzahl Daateianhänge: %s';

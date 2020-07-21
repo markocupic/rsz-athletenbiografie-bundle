@@ -28,6 +28,7 @@ $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['show'] = ["Datensatz mit ID: %s
  */
 $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['title'] = ["Titel", "Geben Sie einen Titel ein"];
 $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['athlete'] = ["Athlet", "Wählen Sie einen Athlet aus."];
+$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['author'] = ["Autor", "Wählen Sie einen Autor aus."];
 $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['notice'] = ["Notiz", "Bitte geben Sie eine Notiz ein."];
 $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['multiSRC'] = ["Dateianlagen", "Fügen Sie Dateianlagen hinzu."];
 
