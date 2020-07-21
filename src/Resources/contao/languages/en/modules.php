@@ -12,7 +12,7 @@
 /**
  * Backend modules
  */
-$GLOBALS['BE_MOD']['rsz_tools']['rsz_athletenbiografie'] = array(
-    'tables' => ['tl_rsz_athletenbiografie']
-);
+$GLOBALS['TL_LANG']['MOD']['rsz_tools'] = 'RSZ Tools';
+$GLOBALS['TL_LANG']['MOD']['rsz_athletenbiografie'] = ['RSZ Athletenbiografie', 'RSZ Athletenbiografie für Trainer'];
+
 

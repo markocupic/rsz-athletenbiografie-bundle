@@ -3,25 +3,32 @@
 /**
  * @copyright  Marko Cupic 2020 <m.cupic@gmx.ch>
  * @author     Marko Cupic
- * @package    RSZ AthletenumfrageBundle
+ * @package    RSZ Athletenbiografie
  * @license    MIT
- * @see        https://github.com/markocupic/rsz-athletenumfrage-bundle
+ * @see        https://github.com/markocupic/rsz-athletenbiografie-bundle
  *
  */
 
-namespace Markocupic\RszAthletenumfrageBundle\ContaoManager;
+
+declare(strict_types=1);
+
+namespace Markocupic\RszAthletenbiografieBundle\ContaoManager;
 
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Config\ConfigPluginInterface;
+use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Config\Loader\LoaderResolverInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+
 
 /**
  * Class Plugin
- * @package Markocupic\RszAthletenumfrageBundle\ContaoManager
+ * @package Markocupic\RszAthletenbiografieBundle\ContaoManager
  */
-class Plugin implements BundlePluginInterface, ConfigPluginInterface
+class Plugin implements BundlePluginInterface, RoutingPluginInterface, ConfigPluginInterface
 {
     /**
      * {@inheritdoc}
@@ -29,7 +36,7 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
     public function getBundles(ParserInterface $parser)
     {
         return [
-            BundleConfig::create('Markocupic\RszAthletenumfrageBundle\MarkocupicRszAthletenumfrageBundle')
+            BundleConfig::create('Markocupic\RszAthletenbiografieBundle\MarkocupicRszAthletenbiografieBundle')
                 ->setLoadAfter(['Contao\CoreBundle\ContaoCoreBundle']),
         ];
     }
@@ -45,5 +52,19 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
         $loader->load(__DIR__ . '/../Resources/config/services.yml');
         $loader->load(__DIR__ . '/../Resources/config/listener.yml');
     }
+
+    /**
+     * @param LoaderResolverInterface $resolver
+     * @param KernelInterface $kernel
+     * @return null|\Symfony\Component\Routing\RouteCollection
+     * @throws \Exception
+     */
+    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
+    {
+        return $resolver
+            ->resolve(__DIR__ . '/../Resources/config/routing.yml')
+            ->load(__DIR__ . '/../Resources/config/routing.yml');
+    }
 }
+
 

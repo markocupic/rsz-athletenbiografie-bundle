@@ -1,0 +1,5 @@
+# config/routing.yml
+markocupic.rsz_athletenbiografie_bundle.controller:
+    resource: ../../../src/Controller
+    type: annotation
+

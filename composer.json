@@ -1,36 +1,32 @@
 {
-  "name": "markocupic/rsz-athletenumfrage-bundle",
-  "description": "RSZ Athletenumfrage",
+  "name": "markocupic/rsz-athletenbiografie-bundle",
+  "description": "Athletenbiografie für RSZ - Contnao Backenderweiterung für Trainer",
   "keywords": [
     "contao",
-    "RSZ",
-    "Athletenumfrage",
-    "Regionalkader",
-    "Sportklettern",
-    "Zentralschweiz"
+    "bundle",
+    "tag 1",
+    "tag 2"
   ],
-  "type": "contao-module",
+  "type": "contao-bundle",
   "license": "MIT",
   "authors": [
     {
       "name": "Marko Cupic",
       "email": "m.cupic@gmx.ch",
-      "homepage": "https://github.com/markocupic",
+      "homepage": "http://github.com/markocupic",
       "role": "Developer"
     }
   ],
   "support": {
-    "issues": "https://github.com/markocupic/rsz-athletenumfrage-bundle/issues",
-    "source": "https://github.com/markocupic/rsz-athletenumfrage-bundle"
+    "issues": "https://github.com/markocupic/rsz-athletenbiografie-bundle/issues",
+    "source": "https://github.com/markocupic/rsz-athletenbiografie-bundle"
   },
   "require": {
-    "contao/core-bundle": "^4.9",
-    "league/csv": "^9.1",
-    "markocupic/phpoffice-bundle": "^1.0"
+    "contao/core-bundle": "^4.9"
   },
   "autoload": {
     "psr-4": {
-      "Markocupic\\RszAthletenumfrageBundle\\": "src/"
+      "Markocupic\\RszAthletenbiografieBundle\\": "src/"
     },
     "classmap": [
       "src/Resources/contao"
@@ -43,7 +39,8 @@
     ]
   },
   "extra": {
-    "contao-manager-plugin": "Markocupic\\RszAthletenumfrageBundle\\ContaoManager\\Plugin"
+    "contao-manager-plugin": "Markocupic\\RszAthletenbiografieBundle\\ContaoManager\\Plugin"
   }
 
 }
+

@@ -1,10 +1,10 @@
 services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: true
+    _defaults: { autowire: true, autoconfigure: true, public: true }
 
-    Markocupic\RszAthletenumfrageBundle\Docx\Athletenumfrage: ~
 
-    Markocupic\RszAthletenumfrageBundle\ContaoBackendMaintenance\MaintainModuleAthletenumfrage: ~
+
+
+    # Custom route
+    Markocupic\RszAthletenbiografieBundle\Controller\MyCustomController: ~
+
 
