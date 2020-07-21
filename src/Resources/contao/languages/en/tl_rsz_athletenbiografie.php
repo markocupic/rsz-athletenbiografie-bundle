@@ -14,7 +14,7 @@
  * Legends
  */
 $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['first_legend'] = "Basis Einstellungen";
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['second_legend'] = "Erweiterte Einstellungen";
+$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['attachment_legend'] = "Dateianlagen";
 
 /**
  * Operations
@@ -26,22 +26,9 @@ $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['show'] = ["Datensatz mit ID: %s
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['title'] = ["Name", "Geben Sie einen Namen ein"];
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['selectField'] = ["Select Feld", "Wählen Sie aus."];
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['checkboxField'] = ["Chosen Feld", "Wählen Sie aus."];
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['multitextField'] = ["Multitext Feld", "Geben Sie die Werte ein"];
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['addSubpalette'] = ["Erweiterte Einstellungen aktivieren", "Hier können Sie die erweiterten Einstellungen aktivieren."];
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['textareaField'] = ["Textarea", "Geben Sie einen Text ein"];
+$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['title'] = ["Titel", "Geben Sie einen Titel ein"];
+$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['notice'] = ["Notiz.", "Bitte geben Sie eine Notiz ein."];
+$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['multiSRC'] = ["Dateianlagen", "Fügen Sie Dateianlagen hinzu."];
 
-/**
- * References
- */
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['firstoption'] = "Erste Option";
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['secondoption'] = "Zweite Option";
-
-/**
- * Buttons
- */
-$GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['customButton'] = "Custom Routine starten";
 
 

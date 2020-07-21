@@ -9,7 +9,6 @@
  *
  */
 
-
 /**
  * Table tl_rsz_athletenbiografie
  */
@@ -21,14 +20,10 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
         'enableVersioning' => true,
         'sql'              => [
             'keys' => [
-                'id' => 'primary'
+                'id' => 'primary',
+                'athlet' => 'index'
             ]
         ],
-    ],
-    'edit'        => [
-        'buttons_callback' => [
-            ['tl_rsz_athletenbiografie', 'buttonsCallback']
-        ]
     ],
     'list'        => [
         'sorting'           => [
@@ -71,22 +66,22 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
     ],
     // Palettes
     'palettes'    => [
-        '__selector__' => ['addSubpalette'],
-        'default'      => '{first_legend},title,selectField,checkboxField,multitextField;{second_legend},addSubpalette'
+        //'__selector__' => ['addSubpalette'],
+        'default' => '{first_legend},title,notice;{attachment_legend},multiSRC'
     ],
     // Subpalettes
     'subpalettes' => [
-        'addSubpalette' => 'textareaField',
+        //
     ],
     // Fields
     'fields'      => [
-        'id'             => [
+        'id'       => [
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ],
-        'tstamp'         => [
+        'tstamp'   => [
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ],
-        'title'          => [
+        'title'    => [
             'inputType' => 'text',
             'exclude'   => true,
             'search'    => true,
@@ -96,50 +91,17 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             'eval'      => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql'       => "varchar(255) NOT NULL default ''"
         ],
-        'selectField'    => [
-            'inputType' => 'select',
-            'exclude'   => true,
-            'search'    => true,
-            'filter'    => true,
-            'sorting'   => true,
-            'reference' => $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie'],
-            'options'   => ['firstoption', 'secondoption'],
-            //'foreignKey'            => 'tl_user.name',
-            //'options_callback'      => ['CLASS', 'METHOD'],
-            'eval'      => ['includeBlankOption' => true, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''",
-            //'relation'  => ['type' => 'hasOne', 'load' => 'lazy']
+        'athlet'   => [
+            'inputType'        => 'select',
+            'exclude'          => true,
+            'search'           => true,
+            'filter'           => true,
+            'sorting'          => true,
+            'options_callback' => ['tl_rsz_athletenbiografie', 'getAthletes'],
+            'eval'             => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql'              => "varchar(255) NOT NULL default ''"
         ],
-        'checkboxField'  => [
-            'inputType' => 'select',
-            'exclude'   => true,
-            'search'    => true,
-            'filter'    => true,
-            'sorting'   => true,
-            'reference' => $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie'],
-            'options'   => ['firstoption', 'secondoption'],
-            //'foreignKey'            => 'tl_user.name',
-            //'options_callback'      =>['CLASS', 'METHOD'],
-            'eval'      => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''",
-            //'relation'  => ['type' => 'hasOne', 'load' => 'lazy']
-        ],
-        'multitextField' => [
-            'inputType' => 'text',
-            'exclude'   => true,
-            'search'    => true,
-            'filter'    => true,
-            'sorting'   => true,
-            'eval'      => ['multiple' => true, 'size' => 4, 'decodeEntities' => true, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
-        ],
-        'addSubpalette'  => [
-            'exclude'   => true,
-            'inputType' => 'checkbox',
-            'eval'      => ['submitOnChange' => true, 'tl_class' => 'w50 clr'],
-            'sql'       => "char(1) NOT NULL default ''"
-        ],
-        'textareaField'  => [
+        'notice'   => [
             'inputType' => 'textarea',
             'exclude'   => true,
             'search'    => true,
@@ -147,7 +109,20 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             'sorting'   => true,
             'eval'      => ['rte' => 'tinyMCE', 'tl_class' => 'clr'],
             'sql'       => 'text NOT NULL'
-        ]
+        ],
+        'multiSRC' => [
+            'exclude'       => true,
+            'inputType'     => 'fileTree',
+            'eval'          => ['multiple' => true, 'fieldType' => 'checkbox', 'orderField' => 'orderSRC', 'files' => true, 'mandatory' => true],
+            'load_callback' => [
+                //['tl_module', 'setMultiSrcFlags']
+            ],
+            'sql'           => "blob NULL"
+        ],
+        'orderSRC' => [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['sortOrder'],
+            'sql'   => "blob NULL"
+        ],
     ]
 ];
 
@@ -156,20 +131,26 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
  */
 class tl_rsz_athletenbiografie extends Contao\Backend
 {
-
     /**
-     * @param $arrButtons
-     * @param \Contao\DC_Table $dc
-     * @return mixed
+     * @return array
+     * @throws Exception
      */
-    public function buttonsCallback($arrButtons, Contao\DC_Table $dc)
+    public function getAthletes()
     {
-        if (Contao\Input::get('act') === 'edit')
+        if (!Contao\Database::getInstance()->fieldExists('funktion', 'tl_user'))
         {
-            $arrButtons['customButton'] = '<button type="submit" name="customButton" id="customButton" class="tl_submit customButton" accesskey="x">' . $GLOBALS['TL_LANG']['tl_rsz_athletenbiografie']['customButton'] . '</button>';
+            throw new \Exception('Field tl_user.funktion does not exist. Be sure you have installed RSZ Benutzerverwaltung.');
+        }
+        $arrUsers = [];
+        $objUser = Contao\Database::getInstance()
+            ->prepare('SELECT * FROM tl_user WHERE funktion=? ORDER BY name')
+            ->execute('Athlet');
+        while ($objUser->next())
+        {
+            $arrUsers[$objUser->id] = $objUser->name;
         }
 
-        return $arrButtons;
+        return $arrUsers;
     }
 }
 
