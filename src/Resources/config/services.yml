@@ -7,4 +7,7 @@ services:
         arguments:
         - '%kernel.project_dir%'
 
-
+    # Generate athlete folders
+    Markocupic\RszAthletenbiografieBundle\RszUser\RszUser:
+        arguments:
+        - '%kernel.project_dir%'

@@ -26,6 +26,7 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
         ],
         'onload_callback'  => [
             ["tl_rsz_athletenbiografie", "downloadRszAthletenbiografie"],
+            ["tl_rsz_athletenbiografie", "createAthleteDirs"],
 
         ],
     ],
@@ -140,13 +141,18 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             'sql'       => 'text NOT NULL'
         ],
         'multiSRC'  => [
-            'exclude'       => true,
-            'inputType'     => 'fileTree',
-            'eval'          => ['multiple' => true, 'fieldType' => 'checkbox', 'orderField' => 'orderSRC', 'files' => true, 'mandatory' => false],
-            'load_callback' => [
-                //['tl_module', 'setMultiSrcFlags']
+            'exclude'   => true,
+            'inputType' => 'fileTree',
+            'eval'      => [
+                'path'       => \Markocupic\RszAthletenbiografieBundle\RszUser\RszUser::ATHLETENBIOGRAFIE_DIRECTORY,
+                'multiple'   => true,
+                'fieldType'  => 'checkbox',
+                'orderField' => 'orderSRC',
+                'files'      => true,
+                'filesOnly'  => true,
+                'mandatory'  => false
             ],
-            'sql'           => "blob NULL"
+            'sql'       => "blob NULL"
         ],
         'dateAdded' => [
             'label'     => &$GLOBALS['TL_LANG']['MSC']['dateAdded'],
@@ -256,6 +262,14 @@ class tl_rsz_athletenbiografie extends Contao\Backend
             \Contao\Message::addError('Error: Could not download biography.');
             $this->redirect($this->getReferer());
         }
+    }
+
+    /**
+     * onload_callback
+     */
+    public function createAthleteDirs()
+    {
+        \Contao\System::getContainer()->get('Markocupic\RszAthletenbiografieBundle\RszUser\RszUser')->createFolders();
     }
 
     /**
