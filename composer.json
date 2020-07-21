@@ -4,8 +4,8 @@
   "keywords": [
     "contao",
     "bundle",
-    "tag 1",
-    "tag 2"
+    "RSZ",
+    "Athletenbiografie für Trainer"
   ],
   "type": "contao-bundle",
   "license": "MIT",
@@ -22,7 +22,9 @@
     "source": "https://github.com/markocupic/rsz-athletenbiografie-bundle"
   },
   "require": {
-    "contao/core-bundle": "^4.9"
+    "contao/core-bundle": "^4.9",
+    "markocupic/rsz-benutzerverwaltung-bundle": "dev-master",
+    "markocupic/phpoffice-bundle": "^1.0"
   },
   "autoload": {
     "psr-4": {
