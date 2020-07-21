@@ -1,7 +1,16 @@
-![Alt text](src/Resources/public/logo.png?raw=true "logo")
+![Alt text](src/Resources/public/rsz-logo.png?raw=true "Regionalzentrum Sportklettern Zentralschweiz")
 
 
-# Welcome to my new extension
+# RSZ - Athletenbiografie
 
-Dieses Modul befindet sich im Entwicklungsstadium.
+Dieses Modul ermöglicht die Führung eines Athletenportfolios im Contao Backend. Die Einträge können als Worddatei ausgedruckt werden.
 
+## Abhängigkeiten
+Diese Erweiterung ist neben `phpoffice/phpspreadsheet` von folgender Erweiterung abhängig.
+
+```ruby
+"require": {
+    "markocupic/rsz-benutzerverwaltung-bundle": "dev-master",
+  },
+```
+  
