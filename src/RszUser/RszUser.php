@@ -15,6 +15,7 @@ namespace Markocupic\RszAthletenbiografieBundle\RszUser;
 
 use Contao\Folder;
 use Contao\Message;
+use Contao\System;
 use Contao\UserModel;
 
 /**
@@ -29,12 +30,8 @@ class RszUser
     private $projectDir;
 
     /**
-     * @var string
-     */
-    const ATHLETENBIOGRAFIE_DIRECTORY = 'files/Dateiablage/user_dir/athletenbiografie';
-
-    /**
      * RszUser constructor.
+     * @param string $projectDir
      */
     public function __construct(string $projectDir)
     {
@@ -61,12 +58,12 @@ class RszUser
                 continue;
             }
 
-            $arrFunktion = deserialize($objUser->funktion);
+            $arrFunktion = unserialize($objUser->funktion);
             if (!empty($arrFunktion) && is_array($arrFunktion))
             {
                 if (in_array('Athlet', $arrFunktion))
                 {
-                    $folder = static::ATHLETENBIOGRAFIE_DIRECTORY . '/' . $objUser->username;
+                    $folder = System::getContainer()->getParameter('rsz-athletenbiografie-file-directory') . '/' . $objUser->username;
                     if (!is_dir($this->projectDir . '/' . $folder))
                     {
                         new Folder($folder);

@@ -15,7 +15,7 @@
 $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
 
     // Config
-    'config'      => [
+    'config'   => [
         'dataContainer'    => 'Table',
         'enableVersioning' => true,
         'sql'              => [
@@ -27,10 +27,9 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
         'onload_callback'  => [
             ["tl_rsz_athletenbiografie", "downloadRszAthletenbiografie"],
             ["tl_rsz_athletenbiografie", "createAthleteDirs"],
-
         ],
     ],
-    'list'        => [
+    'list'     => [
         'sorting'           => [
             'mode'            => 2,
             'fields'          => ['athlete, dateAdded'],
@@ -80,16 +79,11 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
         ]
     ],
     // Palettes
-    'palettes'    => [
-        //'__selector__' => ['addSubpalette'],
+    'palettes' => [
         'default' => '{first_legend},author,title,athlete,dateAdded,notice;{attachment_legend},multiSRC'
     ],
-    // Subpalettes
-    'subpalettes' => [
-        //
-    ],
     // Fields
-    'fields'      => [
+    'fields'   => [
         'id'        => [
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ],
@@ -144,7 +138,7 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             'exclude'   => true,
             'inputType' => 'fileTree',
             'eval'      => [
-                'path'       => \Markocupic\RszAthletenbiografieBundle\RszUser\RszUser::ATHLETENBIOGRAFIE_DIRECTORY,
+                'path'       => \Contao\System::getContainer()->getParameter('rsz-athletenbiografie-file-directory'),
                 'multiple'   => true,
                 'fieldType'  => 'checkbox',
                 'orderField' => 'orderSRC',
