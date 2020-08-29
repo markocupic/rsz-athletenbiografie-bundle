@@ -12,12 +12,19 @@
 /**
  * Backend modules
  */
-$GLOBALS['BE_MOD']['rsz_tools']['rsz_athletenbiografie'] = array(
+$GLOBALS['BE_MOD']['rsz_tools']['rsz_athletenbiografie'] = [
     'tables' => ['tl_rsz_athletenbiografie']
-);
+];
 
 /**
  * Models
  */
 $GLOBALS['TL_MODELS']['tl_rsz_athletenbiografie'] = Markocupic\RszAthletenbiografieBundle\Model\RszAthletenbiografieModel::class;
 
+/**
+ * CSS
+ */
+if (TL_MODE === 'BE')
+{
+    $GLOBALS['TL_CSS'][] = 'web/bundles/markocupicrszathletenbiografie/backend.css||static';
+}

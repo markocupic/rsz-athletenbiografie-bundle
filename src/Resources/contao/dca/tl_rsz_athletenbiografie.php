@@ -26,6 +26,7 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
         ],
         'onload_callback'  => [
             ["tl_rsz_athletenbiografie", "downloadRszAthletenbiografie"],
+            ["tl_rsz_athletenbiografie", "downloadAttachment"],
             ["tl_rsz_athletenbiografie", "createAthleteDirs"],
         ],
     ],
@@ -39,7 +40,7 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
         ],
         'label'             => [
             'fields'         => ['dateAdded', 'title'],
-            'format'         => '%s: [Athlet: ###athlete###] <strong>%s</strong> [Autor: ###author###]',
+            'format'         => '%s: [Athlet: ###athlete###] <strong>%s</strong> [Autor: ###author###] ###attachments###',
             'label_callback' => ['tl_rsz_athletenbiografie', 'labelCallback']
         ],
         'global_operations' => [
@@ -174,6 +175,7 @@ class tl_rsz_athletenbiografie extends Contao\Backend
      */
     public function getAthletes()
     {
+
         if (!Contao\Database::getInstance()->fieldExists('funktion', 'tl_user'))
         {
             throw new \Exception('Field tl_user.funktion does not exist. Be sure you have installed RSZ Benutzerverwaltung.');
@@ -199,6 +201,7 @@ class tl_rsz_athletenbiografie extends Contao\Backend
      */
     public function getUsers()
     {
+
         $arrUsers = [];
         $objUser = Contao\Database::getInstance()
             ->execute('SELECT * FROM tl_user ORDER BY name');
@@ -215,6 +218,7 @@ class tl_rsz_athletenbiografie extends Contao\Backend
      */
     public function downloadRszAthletenbiografie()
     {
+
         if (\Contao\Input::get('do') === 'rsz_athletenbiografie' && \Contao\Input::get('action') === 'downloadRszAthletenbiografie')
         {
             $blnAllowDownload = false;
@@ -258,10 +262,37 @@ class tl_rsz_athletenbiografie extends Contao\Backend
     }
 
     /**
+     * Onload callback
+     */
+    public function downloadAttachment()
+    {
+
+        if (\Contao\Input::get('do') === 'rsz_athletenbiografie' && \Contao\Input::get('action') === 'downloadAttachment' && \Contao\Input::get('uuid') != '')
+        {
+            if ('' != ($uuid = \Contao\Input::get('uuid')))
+            {
+                if (\Contao\Validator::isStringUuid($uuid))
+                {
+                    $binUuid = \Contao\StringUtil::uuidToBin($uuid);
+                    if (null !== ($objFile = \Contao\FilesModel::findByUuid($binUuid)))
+                    {
+                        $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
+                        if (is_file($rootDir . '/' . $objFile->path))
+                        {
+                            \Contao\Controller::sendFileToBrowser($objFile->path,true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * onload_callback
      */
     public function createAthleteDirs()
     {
+
         \Contao\System::getContainer()->get('Markocupic\RszAthletenbiografieBundle\RszUser\RszUser')->createFolders();
     }
 
@@ -272,6 +303,8 @@ class tl_rsz_athletenbiografie extends Contao\Backend
      */
     public function labelCallback($row, $label)
     {
+
+        $projectDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
         $objUser = \Contao\UserModel::findByPk($row['athlete']);
         if ($objUser !== null)
         {
@@ -283,6 +316,30 @@ class tl_rsz_athletenbiografie extends Contao\Backend
         {
             $label = str_replace('###author###', $objUser->name, $label);
         }
+
+        // Append attachments
+        $arrAttachments = [];
+        $src = unserialize($row['multiSRC']);
+        if (!empty($src) && is_array($src))
+        {
+            $i = 0;
+            $objFiles = \Contao\FilesModel::findMultipleByUuids($src);
+            while ($objFiles->next())
+            {
+                $i++;
+                if (is_file($projectDir . '/' . $objFiles->path))
+                {
+                    $arrAttachments[] = sprintf(
+                        '<a href="contao?do=%s&amp;action=downloadAttachment&amp;uuid=%s" class="backend-listing-link" title="%s">LINK_%s</a>',
+                        \Contao\Input::get('do'),
+                        \Contao\StringUtil::binToUuid($objFiles->uuid),
+                        \Contao\StringUtil::specialchars($objFiles->name),
+                        $i
+                    );
+                }
+            }
+        }
+        $label = str_replace('###attachments###', implode(', ', $arrAttachments), $label);
 
         return $label;
     }

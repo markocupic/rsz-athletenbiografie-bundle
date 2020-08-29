@@ -22,4 +22,3 @@ class RszAthletenbiografieModel extends Model
     protected static $strTable = 'tl_rsz_athletenbiografie';
 
 }
-
