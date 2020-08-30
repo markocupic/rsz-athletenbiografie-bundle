@@ -25,6 +25,7 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = [
             ]
         ],
         'onload_callback'  => [
+            ["tl_rsz_athletenbiografie", "loadAssets"],
             ["tl_rsz_athletenbiografie", "downloadRszAthletenbiografie"],
             ["tl_rsz_athletenbiografie", "downloadAttachment"],
             ["tl_rsz_athletenbiografie", "createAthleteDirs"],
@@ -216,6 +217,15 @@ class tl_rsz_athletenbiografie extends Contao\Backend
     /**
      * Onload callback
      */
+    public function loadAssets()
+    {
+
+        $GLOBALS['TL_CSS'][] = 'web/bundles/markocupicrszathletenbiografie/backend.css||static';
+    }
+
+    /**
+     * Onload callback
+     */
     public function downloadRszAthletenbiografie()
     {
 
@@ -279,7 +289,7 @@ class tl_rsz_athletenbiografie extends Contao\Backend
                         $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
                         if (is_file($rootDir . '/' . $objFile->path))
                         {
-                            \Contao\Controller::sendFileToBrowser($objFile->path,true);
+                            \Contao\Controller::sendFileToBrowser($objFile->path, true);
                         }
                     }
                 }
