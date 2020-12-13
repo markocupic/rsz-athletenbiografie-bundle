@@ -1,15 +1,16 @@
 <?php
 
-/**
- * @copyright  Marko Cupic 2020 <m.cupic@gmx.ch>
- * @author     Marko Cupic
- * @package    RSZ Athletenbiografie
- * @license    MIT
- * @see        https://github.com/markocupic/rsz-athletenbiografie-bundle
- *
- */
-
 declare(strict_types=1);
+
+/*
+ * This file is part of Contao Bundle Creator Bundle.
+ *
+ * (c) Marko Cupic 2020 <m.cupic@gmx.ch>
+ * @license MIT
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/rsz-athletenbiografie-bundle
+ */
 
 namespace Markocupic\RszAthletenbiografieBundle\ContaoManager;
 
@@ -20,8 +21,7 @@ use Contao\ManagerPlugin\Config\ConfigPluginInterface;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
 /**
- * Class Plugin
- * @package Markocupic\RszAthletenbiografieBundle\ContaoManager
+ * Class Plugin.
  */
 class Plugin implements BundlePluginInterface, ConfigPluginInterface
 {
@@ -33,22 +33,17 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
         return [
             BundleConfig::create('Markocupic\RszAthletenbiografieBundle\MarkocupicRszAthletenbiografieBundle')
                 ->setLoadAfter(['Contao\CoreBundle\ContaoCoreBundle'])
-                ->setLoadAfter(['Markocupic\RszBenutzerverwaltungBundle\MarkocupicRszBenutzerverwaltungBundle'])
+                ->setLoadAfter(['Markocupic\RszBenutzerverwaltungBundle\MarkocupicRszBenutzerverwaltungBundle']),
         ];
     }
 
     /**
-     * @param LoaderInterface $loader
-     * @param array $managerConfig
      * @throws \Exception
      */
-    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
+    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig): void
     {
-        $loader->load(__DIR__ . '/../Resources/config/parameters.yml');
-        $loader->load(__DIR__ . '/../Resources/config/services.yml');
-        $loader->load(__DIR__ . '/../Resources/config/listener.yml');
+        $loader->load(__DIR__.'/../Resources/config/parameters.yml');
+        $loader->load(__DIR__.'/../Resources/config/services.yml');
+        $loader->load(__DIR__.'/../Resources/config/listener.yml');
     }
-
 }
-
-

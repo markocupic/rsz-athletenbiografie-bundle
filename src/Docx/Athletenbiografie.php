@@ -1,15 +1,16 @@
 <?php
 
-/**
- * @copyright  Marko Cupic 2020 <m.cupic@gmx.ch>
- * @author     Marko Cupic
- * @package    RSZ Athletenbiografie
- * @license    MIT
- * @see        https://github.com/markocupic/rsz-athletenbiografie-bundle
- *
- */
-
 declare(strict_types=1);
+
+/*
+ * This file is part of Contao Bundle Creator Bundle.
+ *
+ * (c) Marko Cupic 2020 <m.cupic@gmx.ch>
+ * @license MIT
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/rsz-athletenbiografie-bundle
+ */
 
 namespace Markocupic\RszAthletenbiografieBundle\Docx;
 
@@ -20,28 +21,31 @@ use Contao\Model\Collection;
 use Contao\UserModel;
 use Contao\Validator;
 use Markocupic\PhpOffice\PhpWord\MsWordTemplateProcessor;
-use Markocupic\RszAthletenbiografieBundle\Model\RszAthletenbiografieModel;
-use Markocupic\RszAthletenumfrageBundle\Model\AthletenumfrageModel;
-use PhpOffice\PhpWord\Element\Link;
+use PhpOffice\PhpWord\Exception\CopyFileException;
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 
 /**
- * Class Athletenbiografie
- * @package Markocupic\RszAthletenbiografieBundle\Docx
+ * Class Athletenbiografie.
  */
 class Athletenbiografie
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private const TEMPLATE_SRC = 'vendor/markocupic/rsz-athletenbiografie-bundle/src/Resources/contao/templates/docx/athletenbiografie.docx';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private const TARGET_FILENAME = 'system/tmp/athletenbiografie_%s_%s.docx';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $projectDir;
 
     /**
      * Athletenbiografie constructor.
-     * @param string $projectDir
      */
     public function __construct(string $projectDir)
     {
@@ -49,10 +53,8 @@ class Athletenbiografie
     }
 
     /**
-     * @param Collection $objAthletenbiografie
-     * @param UserModel $objUser
-     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
-     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     * @throws CopyFileException
+     * @throws CreateTemporaryFileException
      */
     public function print(Collection $objAthletenbiografie, UserModel $objUser): void
     {
@@ -65,10 +67,7 @@ class Athletenbiografie
         $objPhpWord->replace('athlete_dateOfBirth', Date::parse('d.m.Y', $objUser->dateOfBirth));
         $objPhpWord->replace('date', Date::parse('d.m.Y', time()));
 
-        while ($objAthletenbiografie->next())
-        {
-            $arrData = $objAthletenbiografie->row();
-
+        while ($objAthletenbiografie->next()) {
             // Clone row
             $objPhpWord->createClone('dateAdded');
 
@@ -86,30 +85,28 @@ class Athletenbiografie
 
             // Handle attachments
             $arrFiles = deserialize($objAthletenbiografie->multiSRC);
-            if (!empty($arrFiles) && is_array($arrFiles))
-            {
-                foreach ($arrFiles as $uuid)
-                {
-                    if (Validator::isUuid($uuid))
-                    {
+
+            if (!empty($arrFiles) && \is_array($arrFiles)) {
+                foreach ($arrFiles as $uuid) {
+                    if (Validator::isUuid($uuid)) {
                         $objFile = FilesModel::findByUuid($uuid);
-                        if (is_file($this->projectDir . '/' . $objFile->path))
-                        {
+
+                        if (is_file($this->projectDir.'/'.$objFile->path)) {
                             $arrLinks[] = [
-                                'name'      => $objFile->name,
+                                'name' => $objFile->name,
                                 'extension' => $objFile->extension,
-                                'path'      => $objFile->path,
-                                'download'  => sprintf('%s/contao/popup?src=%s==&download=1', Environment::get('url'), base64_encode($objFile->path)),
+                                'path' => $objFile->path,
+                                'download' => sprintf('%s/contao/popup?src=%s==&download=1', Environment::get('url'), base64_encode($objFile->path)),
                             ];
-                            $countAttachments++;
+                            ++$countAttachments;
                         }
                     }
                 }
             }
 
             $strAttachments = '';
-            if ($countAttachments)
-            {
+
+            if ($countAttachments) {
                 $strAttachments = sprintf($GLOBALS['TL_LANG']['MSC']['downloasRszAthleteAttachmentsFound'], $countAttachments);
             }
 
@@ -118,7 +115,7 @@ class Athletenbiografie
         // Generate Docx file from template;
         $objPhpWord->generateUncached(true)
             ->sendToBrowser(true)
-            ->generate();
+            ->generate()
+        ;
     }
-
 }

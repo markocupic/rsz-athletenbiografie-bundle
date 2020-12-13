@@ -1,26 +1,24 @@
 <?php
 
-/**
- * @copyright  Marko Cupic 2020 <m.cupic@gmx.ch>
- * @author     Marko Cupic
- * @package    RSZ Athletenbiografie
- * @license    MIT
- * @see        https://github.com/markocupic/rsz-athletenbiografie-bundle
- *
- */
-
-
 declare(strict_types=1);
+
+/*
+ * This file is part of Contao Bundle Creator Bundle.
+ *
+ * (c) Marko Cupic 2020 <m.cupic@gmx.ch>
+ * @license MIT
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/rsz-athletenbiografie-bundle
+ */
 
 namespace Markocupic\RszAthletenbiografieBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class MarkocupicRszAthletenbiografieBundle
- * @package Markocupic\RszAthletenbiografieBundle
+ * Class MarkocupicRszAthletenbiografieBundle.
  */
 class MarkocupicRszAthletenbiografieBundle extends Bundle
 {
 }
-
