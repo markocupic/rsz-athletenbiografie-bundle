@@ -18,6 +18,7 @@ use Contao\Folder;
 use Contao\Message;
 use Contao\System;
 use Contao\UserModel;
+use Contao\StringUtil;
 
 /**
  * Class RszUser.
@@ -57,9 +58,9 @@ class RszUser
                 continue;
             }
 
-            $arrFunktion = unserialize($objUser->funktion);
+            $arrFunktion = StringUtil::deserialize($objUser->funktion, true);
 
-            if (!empty($arrFunktion) && \is_array($arrFunktion)) {
+            if (!empty($arrFunktion)) {
                 if (\in_array('Athlet', $arrFunktion, true)) {
                     $folder = System::getContainer()->getParameter('rsz-athletenbiografie-file-directory').'/'.$objUser->username;
 
