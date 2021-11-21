@@ -148,7 +148,7 @@ $GLOBALS['TL_DCA']['tl_rsz_athletenbiografie'] = array(
 			'filter'    => false,
 			'sorting'   => false,
 			'eval'      => array('rte' => 'tinyMCE', 'tl_class' => 'clr'),
-			'sql'       => "text NOT NULL default ''"
+			'sql'       => "mediumtext NULL"
 		),
 		'multiSRC'  => array(
 			'exclude'   => true,
