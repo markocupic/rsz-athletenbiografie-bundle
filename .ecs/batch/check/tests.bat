@@ -7,4 +7,3 @@ cd..
 cd..
 cd..
 vendor\bin\ecs check vendor/markocupic/rsz-athletenbiografie-bundle/tests --config vendor/markocupic/rsz-athletenbiografie-bundle/.ecs/config/default.php
-cd vendor/markocupic/rsz-athletenbiografie-bundle/.ecs./batch/check

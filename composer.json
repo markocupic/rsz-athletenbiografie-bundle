@@ -22,6 +22,7 @@
     "source": "https://github.com/markocupic/rsz-athletenbiografie-bundle"
   },
   "require": {
+    "php": "^8.0",
     "contao/core-bundle": "^4.9",
     "markocupic/rsz-benutzerverwaltung-bundle": "dev-master",
     "markocupic/phpoffice-bundle": "^1.0"

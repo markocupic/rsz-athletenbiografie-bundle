@@ -7,6 +7,6 @@ cd..
 cd..
 cd..
 :: legacy
-vendor\bin\ecs check vendor/markocupic/rsz-athletenbiografie-bundle/src/Resources/contao --fix --config vendor/markocupic/rsz-athletenbiografie-bundle/.ecs/config/legacy.php
+vendor\bin\ecs check vendor/markocupic/rsz-athletenbiographie-bundle/src/Resources/contao --fix --config vendor/markocupic/rsz-athletenbiographie-bundle/.ecs/config/legacy.php
 ::
-cd vendor/markocupic/rsz-athletenbiografie-bundle/.ecs./batch/fix
+cd vendor/markocupic/rsz-athletenbiographie-bundle/.ecs./batch/fix

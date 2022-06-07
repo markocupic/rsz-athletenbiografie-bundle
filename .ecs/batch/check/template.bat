@@ -7,6 +7,6 @@ cd..
 cd..
 cd..
 :: templates
-vendor\bin\ecs check vendor/markocupic/rsz-athletenbiografie-bundle/src/Resources/contao/templates --config vendor/markocupic/rsz-athletenbiografie-bundle/.ecs/config/template.php
+vendor\bin\ecs check vendor/markocupic/rsz-athletenbiographie-bundle/src/Resources/contao/templates --config vendor/markocupic/rsz-athletenbiographie-bundle/.ecs/config/template.php
 ::
-cd vendor/markocupic/rsz-athletenbiografie-bundle/.ecs./batch/check
+cd vendor/markocupic/rsz-athletenbiographie-bundle/.ecs./batch/check

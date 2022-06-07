@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Contao Bundle Creator Bundle.
+ * This file is part of RSZ Athletenbiografie Bundle.
  *
- * (c) Marko Cupic 2020 <m.cupic@gmx.ch>
+ * (c) Marko Cupic 2022 <m.cupic@gmx.ch>
  * @license MIT
  * For the full copyright and license information,
  * please view the LICENSE file that was distributed with this source code.
- * @link https://github.com/markocupic/rsz-athletenbiografie-bundle
+ * @link https://github.com/markocupic/rsz-athletenbiographie-bundle
  */
 
 namespace Markocupic\RszAthletenbiografieBundle\Docx;
@@ -18,6 +18,7 @@ use Contao\Date;
 use Contao\Environment;
 use Contao\FilesModel;
 use Contao\Model\Collection;
+use Contao\StringUtil;
 use Contao\UserModel;
 use Contao\Validator;
 use Markocupic\PhpOffice\PhpWord\MsWordTemplateProcessor;
@@ -29,14 +30,8 @@ use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
  */
 class Athletenbiografie
 {
-    /**
-     * @var string
-     */
     private const TEMPLATE_SRC = 'vendor/markocupic/rsz-athletenbiografie-bundle/src/Resources/contao/templates/docx/athletenbiografie.docx';
 
-    /**
-     * @var string
-     */
     private const TARGET_FILENAME = 'system/tmp/athletenbiografie_%s_%s.docx';
 
     /**
@@ -84,14 +79,14 @@ class Athletenbiografie
             $countAttachments = 0;
 
             // Handle attachments
-            $arrFiles = deserialize($objAthletenbiografie->multiSRC);
+            $arrFiles = StringUtil::deserialize($objAthletenbiografie->multiSRC);
 
             if (!empty($arrFiles) && \is_array($arrFiles)) {
                 foreach ($arrFiles as $uuid) {
                     if (Validator::isUuid($uuid)) {
                         $objFile = FilesModel::findByUuid($uuid);
 
-                        if (is_file($this->projectDir.'/'.$objFile->path)) {
+                        if (null !== $objFile && is_file($this->projectDir.'/'.$objFile->path)) {
                             $arrLinks[] = [
                                 'name' => $objFile->name,
                                 'extension' => $objFile->extension,
