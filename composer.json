@@ -1,49 +1,39 @@
 {
-  "name": "markocupic/rsz-athletenbiografie-bundle",
-  "description": "Athletenbiografie für RSZ - Contnao Backenderweiterung für Trainer",
-  "keywords": [
-    "contao",
-    "bundle",
-    "RSZ",
-    "Athletenbiografie für Trainer"
-  ],
-  "type": "contao-bundle",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Marko Cupic",
-      "email": "m.cupic@gmx.ch",
-      "homepage": "http://github.com/markocupic",
-      "role": "Developer"
-    }
-  ],
-  "support": {
-    "issues": "https://github.com/markocupic/rsz-athletenbiografie-bundle/issues",
-    "source": "https://github.com/markocupic/rsz-athletenbiografie-bundle"
-  },
-  "require": {
-    "php": "^8.0",
-    "contao/core-bundle": "^4.9",
-    "markocupic/rsz-benutzerverwaltung-bundle": "dev-master",
-    "markocupic/phpoffice-bundle": "^1.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Markocupic\\RszAthletenbiografieBundle\\": "src/"
-    },
-    "classmap": [
-      "src/Resources/contao"
+    "name": "markocupic/rsz-athletenbiografie-bundle",
+    "description": "Athletenbiografie für RSZ - Contnao Backenderweiterung für Trainer",
+    "keywords": [
+        "contao",
+        "bundle",
+        "RSZ",
+        "Athletenbiografie für Trainer"
     ],
-    "exclude-from-classmap": [
-      "src/Resources/contao/config",
-      "src/Resources/contao/dca",
-      "src/Resources/contao/languages",
-      "src/Resources/contao/templates"
-    ]
-  },
-  "extra": {
-    "contao-manager-plugin": "Markocupic\\RszAthletenbiografieBundle\\ContaoManager\\Plugin"
-  }
-
+    "type": "contao-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marko Cupic",
+            "email": "m.cupic@gmx.ch",
+            "homepage": "http://github.com/markocupic",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/markocupic/rsz-athletenbiografie-bundle/issues",
+        "source": "https://github.com/markocupic/rsz-athletenbiografie-bundle"
+    },
+    "require": {
+        "php": "^8.1",
+        "contao/core-bundle": "^4.13 || ^5.0",
+        "markocupic/rsz-benutzerverwaltung-bundle": "dev-master",
+        "markocupic/phpoffice-bundle": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Markocupic\\RszAthletenbiografieBundle\\": "src/"
+        }
+    },
+    "extra": {
+        "contao-manager-plugin": "Markocupic\\RszAthletenbiografieBundle\\ContaoManager\\Plugin"
+    }
 }
 
