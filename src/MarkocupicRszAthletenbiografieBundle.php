@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Markocupic\RszAthletenbiografieBundle;
 
-use Markocupic\RszBenutzerverwaltungBundle\DependencyInjection\MarkocupicRszAthletenbiografieExtension;
+use Markocupic\RszAthletenbiografieBundle\DependencyInjection\MarkocupicRszAthletenbiografieExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
