@@ -94,15 +94,15 @@ class RszAthletenbiografie extends Backend
             /** @var AttributeBagInterface $bag */
             $bag = $request->getSession()->getBag('contao_backend');
 
-            $bag->all();
+                $bag->all();
 
-            if ($bag->has('filter')) {
-                $arrFilter = $bag->get('filter');
+                if ($bag->has('filter')) {
+                    $arrFilter = $bag->get('filter');
 
-                if (isset($arrFilter['tl_rsz_athletenbiografie']['athlete'])) {
-                    $blnAllowDownload = true;
+                    if (isset($arrFilter['tl_rsz_athletenbiografie']['athlete'])) {
+                        $blnAllowDownload = true;
+                    }
                 }
-            }
 
             if (!$blnAllowDownload || !isset($arrFilter)) {
                 Message::addError($this->translator->trans('ERR.downloadRszAthleteBiographyNotPossible', [], 'contao_default'));

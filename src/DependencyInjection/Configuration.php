@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link https://github.com/markocupic/rsz-athletenbiografie-bundle
  */
 
-namespace Markocupic\RszBenutzerverwaltungBundle\DependencyInjection;
+namespace Markocupic\RszAthletenbiografieBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

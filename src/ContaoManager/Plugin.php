@@ -18,8 +18,10 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
+use Contao\ManagerPlugin\Config\ConfigPluginInterface;
 use Markocupic\RszAthletenbiografieBundle\MarkocupicRszAthletenbiografieBundle;
 use Markocupic\RszBenutzerverwaltungBundle\MarkocupicRszBenutzerverwaltungBundle;
+use Symfony\Component\Config\Loader\LoaderInterface;
 
 class Plugin implements BundlePluginInterface
 {
@@ -34,4 +36,5 @@ class Plugin implements BundlePluginInterface
                 ->setLoadAfter([MarkocupicRszBenutzerverwaltungBundle::class]),
         ];
     }
+
 }
