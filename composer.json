@@ -25,7 +25,7 @@
         "php": "^8.1",
         "contao/core-bundle": "^4.13 || ^5.0",
         "markocupic/rsz-benutzerverwaltung-bundle": "dev-master",
-        "markocupic/phpoffice-bundle": "^1.0"
+        "markocupic/phpoffice-bundle": "^1.4"
     },
     "autoload": {
         "psr-4": {

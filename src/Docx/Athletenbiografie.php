@@ -28,7 +28,7 @@ use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 class Athletenbiografie
 {
     private const TEMPLATE_SRC = 'vendor/markocupic/rsz-athletenbiografie-bundle/contao/templates/docx/athletenbiografie.docx';
-    private const TARGET_FILENAME = 'system/tmp/athletenbiografie_%s_%s.docx';
+    private const TARGET_FILENAME = '%s/athletenbiografie_%s_%s.docx';
 
     public function __construct(
         private readonly string $projectDir,
@@ -41,10 +41,17 @@ class Athletenbiografie
      */
     public function print(Collection $objAthletenbiografie, UserModel $objUser): void
     {
-        $targetFilename = sprintf(static::TARGET_FILENAME, str_replace(' ', '', strtolower($objUser->username)), Date::parse('Y-m-d', time()));
+        $targetFilename = sprintf(
+            static::TARGET_FILENAME,
+            sys_get_temp_dir(),
+            strtolower($objUser->username),
+            Date::parse('Y-m-d', time()),
+        );
+
+        $templateSrc = $this->projectDir.'/'. static::TEMPLATE_SRC;
 
         // Create template processor object
-        $objPhpWord = new MsWordTemplateProcessor(static::TEMPLATE_SRC, $targetFilename);
+        $objPhpWord = new MsWordTemplateProcessor($templateSrc, $targetFilename);
 
         $objPhpWord->replace('athlete_name', $objUser->name);
         $objPhpWord->replace('athlete_dateOfBirth', Date::parse('d.m.Y', $objUser->dateOfBirth));
