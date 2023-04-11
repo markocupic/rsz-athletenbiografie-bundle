@@ -1,4 +1,4 @@
-![Alt text](src/Resources/public/rsz-logo.png?raw=true "Regionalzentrum Sportklettern Zentralschweiz")
+![Alt text](public/rsz-logo.png?raw=true "Regionalzentrum Sportklettern Zentralschweiz")
 
 
 # RSZ - Athletenbiografie
