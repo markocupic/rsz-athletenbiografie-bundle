@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of RSZ Athletenbiografie Bundle.
  *
- * (c) Marko Cupic 2023 <m.cupic@gmx.ch>
+ * (c) Marko Cupic 2025 <m.cupic@gmx.ch>
  * @license MIT
  * For the full copyright and license information,
  * please view the LICENSE file that was distributed with this source code.
@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Markocupic\RszAthletenbiografieBundle\Docx;
 
+use Contao\CoreBundle\Exception\ResponseException;
 use Contao\Date;
 use Contao\Environment;
 use Contao\FilesModel;
@@ -22,6 +23,7 @@ use Contao\StringUtil;
 use Contao\UserModel;
 use Contao\Validator;
 use Markocupic\PhpOffice\PhpWord\MsWordTemplateProcessor;
+use Markocupic\RszAthletenbiografieBundle\BinaryFileDownload;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 
@@ -31,6 +33,7 @@ class Athletenbiografie
     private const TARGET_FILENAME = '%s/athletenbiografie_%s_%s.docx';
 
     public function __construct(
+        private readonly BinaryFileDownload $binaryFileDownload,
         private readonly string $projectDir,
     ) {
     }
@@ -48,7 +51,7 @@ class Athletenbiografie
             Date::parse('Y-m-d', time()),
         );
 
-        $templateSrc = $this->projectDir.'/'. static::TEMPLATE_SRC;
+        $templateSrc = $this->projectDir.'/'.static::TEMPLATE_SRC;
 
         // Create template processor object
         $objPhpWord = new MsWordTemplateProcessor($templateSrc, $targetFilename);
@@ -61,7 +64,7 @@ class Athletenbiografie
             // Clone row
             $objPhpWord->createClone('dateAdded');
 
-            $dateAdded = (string) Date::parse('d.m.Y', $objAthletenbiografie->dateAdded);
+            $dateAdded = Date::parse('d.m.Y', $objAthletenbiografie->dateAdded);
             $notice = (string) $objAthletenbiografie->notice;
             $title = (string) $objAthletenbiografie->title;
 
@@ -104,9 +107,8 @@ class Athletenbiografie
         }
 
         // Generate Docx file from template;
-        $objPhpWord->generateUncached(true)
-            ->sendToBrowser(true)
-            ->generate()
-        ;
+        $splFile = $objPhpWord->generate();
+
+        throw new ResponseException($this->binaryFileDownload->sendFileToBrowser($splFile->getRealPath()));
     }
 }
